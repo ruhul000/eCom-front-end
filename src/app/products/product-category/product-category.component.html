@@ -1,0 +1,151 @@
+<div class="shop-content">
+    <div class="container">
+        <div class="row">
+            <aside class="col-md-3 col-sm-4">
+                <div class="side-widget space50">
+                    <form role="form" class="search-widget">
+                        <input title="search" class="form-control" type="text" name="search" [(ngModel)]="search.search" (input)="getDataBySearch()">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+                <div class="side-widget space50">
+                    <form role="form" class="search-widget">
+                        Select Color
+                        <select class="form-control" [(ngModel)]="color" (change)="changeColor($event.target.value)">
+                            <option value="">All</option>
+                            <option value="Black">Black</option>
+                            <option value="White">White</option>
+                            <option value="Gray">Gray</option>
+                            <option value="Silver">Silver</option>
+                            <option value="Red">Red</option>
+                            <option value="Green">Green</option>
+                            <option value="Blue">Blue</option>
+                            <option value="Yellow">Yellow</option>
+                            <option value="Violet">Violet</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="side-widget">
+                    <h3><span>Shop by</span></h3>
+                    <ion-range-slider #sliderElement
+                                      type="double"
+                                      min="1"
+                                      max="200000"
+                                      from="1"
+                                      to="200000"
+                                      from_shadow="true"
+                                      to_shadow="true"
+                                      grid="true"
+                                      grid_num="10"
+                                      prefix="Price: "
+                                      postfix=" tk"
+                                      decorate_both="false"
+                                      (onFinish)="myOnFinish($event)"></ion-range-slider>
+                    <div style="padding-top: 25px;">
+                        <ng-container *ngFor="let menu of menus">
+                            <h5>
+                                <a [routerLink]="'/product/category/' + menu['_id']" (click)="search.categoryId = menu['_id']; getDataBySearch()">{{menu['name']}}</a></h5>
+                            <ul class="cat-list">
+                                <li *ngFor="let sub of menu['sub']">
+                                    <a [routerLink]="'/product/category/' + sub._id" (click)="search.categoryId = menu['_id']; getDataBySearch()">{{sub.name}}</a>
+                                </li>
+                            </ul>
+                        </ng-container>
+                    </div>
+
+                    <div class="clearfix space20"></div>
+                </div>
+            </aside>
+            <div class="col-md-9 col-sm-8">
+                <div class="space50"></div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="getProducts()">
+                                <div class="col-md-4 col-sm-6" *ngFor="let product of products">
+                                    <div class="product-item">
+                                        <div class="item-thumb">
+                                            <span class="badge new" *ngIf="product?.new">New</span>
+                                            <span class="badge offer" *ngIf="product?.discount">{{product?.discount}}%</span>
+                                            <img [src]="imageURL + product?.images[0]" class="img-responsive" alt=""/>
+                                            <div class="overlay-rmore fa fa-search quickview" data-toggle="modal" data-target="#myModal" (click)="showProductModal(product)"></div>
+                                            <div class="product-overlay">
+                                                <a class="addcart fa fa-shopping-cart" data-toggle="modal" data-target="#myModal" (click)="showProductModal(product)"></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-info">
+                                            <h4 class="product-title">
+                                                <a [routerLink]="'/product/detail/' + product?._id"><b>{{product?.name}}</b></a>
+                                            </h4>
+                                            <div class="ps-price" *ngIf="!product?.discount">৳ {{product?.price}}</div>
+                                            <div class="ps-price" *ngIf="product?.discount">
+                                                <span>৳ {{product?.price}}</span> ৳ {{(product?.price - (product?.price*product?.discount/100))}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space50"></div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" *ngIf="showModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i>
+            </button>
+            <div class="row">
+                <div class="col-md-5 col-sm-6">
+                    <carousel>
+                        <slide *ngFor="let image of showModalProduct?.images">
+                            <img src="{{imageURL + image}}" alt="Image" style="display: block; width: 100%;">
+                        </slide>
+                    </carousel>
+                </div>
+                <div class="col-md-7 col-sm-6">
+                    <div class="product-single">
+                        <div class="ps-header">
+                            <span class="badge new" *ngIf="showModalProduct?.new">New</span>
+                            <span class="badge offer" *ngIf="showModalProduct?.discount">{{showModalProduct?.discount}}%</span>
+                            <h3><b>{{showModalProduct?.name}}</b></h3>
+                            <div class="ps-price" *ngIf="!showModalProduct?.discount">৳ {{showModalProduct?.price}}
+                            </div>
+                            <div class="ps-price" *ngIf="showModalProduct?.discount">
+                                <span>৳ {{showModalProduct?.price}}</span> ৳ {{(showModalProduct?.price - (showModalProduct?.price*showModalProduct?.discount/100))}}
+                            </div>
+                        </div>
+                        <div class="ps-stock">
+                            Available: <a href="#">In Stock</a>
+                        </div>
+                        <div class="sep"></div>
+                        <p>{{showModalProduct?.detail}}</p>
+                        <div class="space10"></div>
+                        <div class="row select-wraps">
+                            <div class="col-md-6 col-sm-6" *ngFor="let com of compo2;">
+                                <p>{{com?.name}}<span>*</span></p>
+                                <select title="name" class="form-control" (change)="selectComponent(com?.name, $event.target.value)">
+                                    <option *ngFor="let val of com?.value;" [value]="val">{{val}}</option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-6 col-sm-6">
+                                <p>Quantity<span>*</span></p>
+                                <input title="quantity" type="number" class="form-control" min="1" name="compoQty" [(ngModel)]="compoQty">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space20"></div>
+                    <div class="sep"></div>
+                    <a class="btn-color" style="cursor: pointer;" data-dismiss="modal" (click)="layoutService.addToCart(showModalProduct?._id, 'local', compo, compoQty);toastr.success('Product has been added to cart.', 'Success!');">Add to Bag</a>
+                    <a class="btn-black" style="cursor: pointer;" data-dismiss="modal" [routerLink]="'/product/detail/' + showModalProduct?._id">Go to Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space30 clearfix"></div>

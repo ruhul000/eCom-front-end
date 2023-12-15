@@ -1,0 +1,101 @@
+<div class="container padding40">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <h5 class="heading space40"><span>{{settingsService?.proHeader1}}</span></h5>
+            <div class="row" infiniteScroll  [infiniteScrollDistance]="3" [infiniteScrollThrottle]="50"
+                 (scrolled)="getProducts()">
+                <div class="search-results">
+                    <div class="col-md-3 col-sm-6" *ngFor="let product of products">
+                        <div class="product-item">
+                            <div class="item-thumb">
+                                <span class="badge new" *ngIf="product?.new">New</span>
+                                <span class="badge offer" *ngIf="product?.discount">{{product?.discount}}%</span>
+                                <img [src]="imageURL + product?.images[0]" class="img-responsive" alt=""/>
+                                <div class="overlay-rmore fa fa-search quickview" data-toggle="modal"
+                                     data-target="#myModal" (click)="showProductModal(product)"></div>
+                                <div class="product-overlay">
+                                    <a class="addcart fa fa-shopping-cart" (click)="showProductModal(product);"></a>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h4 class="product-title"><a [routerLink]="'/product/detail/' + product?._id"><b>{{product?.name}}</b></a>
+                                </h4>
+                                <div class="ps-price" *ngIf="!product?.discount">৳ {{product?.price}}</div>
+                                <div class="ps-price" *ngIf="product?.discount"><span>৳ {{product?.price}}</span> ৳
+                                    {{(product?.price - (product?.price*product?.discount/100))}}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space30 clearfix"></div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" *ngIf="showModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i>
+            </button>
+            <div class="row">
+                <div class="col-md-5 col-sm-6">
+                    <carousel>
+                        <slide *ngFor="let image of showModalProduct?.images">
+                            <img src="{{imageURL + image}}" alt="Image" style="display: block; width: 100%;">
+                        </slide>
+                    </carousel>
+                </div>
+                <div class="col-md-7 col-sm-6">
+                    <div class="product-single">
+                        <div class="ps-header">
+                            <span class="badge new" *ngIf="showModalProduct?.new">New</span>
+                            <span class="badge offer"
+                                  *ngIf="showModalProduct?.discount">{{showModalProduct?.discount}}%</span>
+                            <h3><b>{{showModalProduct?.name}}</b></h3>
+                            <div class="ps-price" *ngIf="!showModalProduct?.discount">৳ {{showModalProduct?.price}}
+                            </div>
+                            <div class="ps-price" *ngIf="showModalProduct?.discount">
+                                <span>৳ {{showModalProduct?.price}}</span> ৳ {{(showModalProduct?.price -
+                                (showModalProduct?.price*showModalProduct?.discount/100))}}
+                            </div>
+
+                        </div>
+
+                        <div class="ps-stock">
+                            Available: <a href="#">In Stock</a>
+                        </div>
+                        <div class="sep"></div>
+                        <p>{{showModalProduct?.detail}}</p>
+                        <div class="space10"></div>
+                        <div class="row select-wraps">
+                            <div class="col-md-6 col-sm-6" *ngFor="let com of compo2;">
+                                <p>{{com?.name}}<span>*</span></p>
+                                <select class="form-control" (change)="selectComponent(com?.name, $event.target.value)">
+                                    <option *ngFor=" let val of com?.value;" [value]="val">{{val}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-6 col-sm-6">
+                                <p>Quantity<span>*</span></p>
+                                <input type="number" class="form-control" min="1" name="compoQty"
+                                       [(ngModel)]="compoQty">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space20"></div>
+                    <div class="sep"></div>
+                    <a class="btn-color" style="cursor: pointer;" data-dismiss="modal"
+                       (click)="layoutService?.addToCart(showModalProduct?._id, 'local', compo, compoQty)">Add to
+                        Bag</a>
+                    <a class="btn-black" style="cursor: pointer;" data-dismiss="modal"
+                       [routerLink]="'/product/detail/' + showModalProduct?._id">Go to Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

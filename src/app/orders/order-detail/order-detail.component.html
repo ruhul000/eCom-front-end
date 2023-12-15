@@ -1,0 +1,384 @@
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+    <div class="container">
+        <ul>
+            <li><a routerLink="">Home</a></li>
+            <li>My Account</li>
+        </ul>
+    </div>
+</div>
+
+
+<!-- MY ACCOUNT -->
+<div class="account-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-4 checkout-steps">
+                <h6>Orders</h6>
+                <app-sidebar></app-sidebar>
+            </div>
+            <div class="col-md-9 col-sm-8">
+                <!-- HTML -->
+
+                <div id="account-id">
+
+                    <h4 class="account-title"><span class="fa fa-chevron-right"></span>Your Order Detail
+                        <button (click)="printData()" type="button" class="btn-black btn" style="float: right;">print
+                        </button>
+                    </h4>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-6">
+                        <div class="panel panel-default height">
+                            <div class="panel-heading">Order Detail</div>
+                            <div class="panel-body">
+                                <span><strong>Order ID:</strong> {{order?.order_id}}</span><br>
+                                <span><strong>Time :</strong> {{order?.time | date:'yyyy-MM-dd hh:mm a'}}</span><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="panel panel-default height">
+                            <div class="panel-heading">User Information</div>
+                            <div class="panel-body">
+                                <span><strong>Name:</strong> {{order?.user_id.name}}</span><br>
+                                <span><strong>Email:</strong> {{order?.user_id.email}}</span><br>
+                                <span><strong>Phone:</strong> {{order?.user_id.phone}}</span><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-6">
+                        <div class="panel panel-default height">
+                            <div class="panel-heading">Payment Information</div>
+                            <div class="panel-body">
+                                <span><strong>Payment Type:</strong> {{order?.paymentType}}</span><br>
+                                <span><strong>Payment Status:</strong> {{order?.paymentStatus === 0 ? 'Un - Paid' : 'Paid'}}</span><br>
+                                <ng-container *ngIf="order?.paymentInfo?.token">
+                                    <span><strong>Transaction Detail:</strong> {{order?.paymentInfo?.txn_details}}</span><br>
+                                    <span><strong>Card Detail:</strong> {{order?.paymentInfo?.card_details}}</span><br>
+                                    <span><strong>Payment Card:</strong> {{order?.paymentInfo?.payment_card}}</span><br>
+                                    <span><strong>Transaction Time:</strong> {{order?.paymentInfo?.txn_time}}</span><br>
+                                </ng-container>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="panel panel-default height">
+                            <div class="panel-heading">Shipping Address</div>
+                            <div class="panel-body">
+                                <span><strong>Division:</strong> {{order?.shippingAddress?.division?.name}}</span><br>
+                                <span><strong>District:</strong> {{order?.shippingAddress?.district?.name}}</span><br>
+                                <span><strong>Address 1:</strong> {{order?.shippingAddress?.address_1}}</span><br>
+                                <span><strong>Address 2:</strong> {{order?.shippingAddress?.address_2}}</span><br>
+                                <span><strong>zip:</strong> {{order?.shippingAddress?.zip}}</span><br>
+                                <span><strong>shippingEmail:</strong> {{order?.shippingAddress?.shippingEmail}}</span><br>
+                                <span><strong>shippingPhone:</strong> {{order?.shippingAddress?.shippingPhone}}</span><br>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-history">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Product Name</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Discount</th>
+                                <th>total</th>
+                            </tr>
+                            </thead>
+                            <tbody *ngIf="order">
+                            <ng-container *ngIf="order?.products && order?.products.length > 0">
+                                <tr *ngFor=" let product of order?.products">
+                                    <td><img [src]="imageURL + product?.images" class="img-responsive"
+                                             style="max-width: 200px; max-height: 200px;" alt=""/></td>
+                                    <td>
+                                        <ng-container
+                                            *ngIf="( (order?.status === 'Done'))"
+                                            [ngStyle]="{'display':showReviewButton(product) === true ? 'none': 'block'}">
+                                            <h4>{{product?.name}}</h4>
+                                            <button type="button" data-toggle="modal" data-target="#reviewModal"
+                                                    (click)="reviewProductOpenModal(product)">Review
+                                            </button>
+                                        </ng-container>
+                                        <ng-container *ngIf="order.status !== 'Done'">
+                                            <h4>{{product?.name}}</h4>
+                                        </ng-container>
+                                        <ng-container *ngIf="product?.components && product?.components?.length > 0">
+                                            <p *ngFor="let com of product?.components">{{com?.name}}: {{com?.value}}</p>
+                                        </ng-container>
+
+                                    </td>
+                                    <td>
+                                        <div class="item-price">{{product?.qty}}</div>
+                                    </td>
+                                    <td>
+                                        <div class="item-price">{{product?.price}}</div>
+                                    </td>
+                                    <td>
+                                        <div class="item-price">{{product?.discount ? product?.discount + '%' : '0.00'}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="item-price">{{(product?.discount) ? product?.qty * (product?.price -
+                                            (product?.price * product?.discount/100)) : product?.qty * product?.price}}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            </tbody>
+                            <tfoot *ngIf="order">
+                            <tr>
+                                <td class="a-right" colspan="5" style="text-align: right">
+                                    Subtotal Total
+                                </td>
+                                <td style="" class="a-right">
+                                    <span class="price">৳{{order?.subtotal}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="a-right" colspan="5" style="text-align: right">
+                                    Discount
+                                </td>
+                                <td style="" class="a-right">
+                                    <span class="price">৳{{(order?.discount == 0 ? '0.00' : order?.discount)}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="a-right" colspan="5" style="text-align: right">
+                                    <strong>Grand Total</strong>
+                                </td>
+                                <td style="" class="a-right">
+                                    <span class="price">৳{{order?.total}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="a-right" colspan="5" style="text-align: right">
+                                    Status
+                                </td>
+                                <td style="" class="a-right">
+                                    <span class="price">{{order?.status}}</span>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div id="print-section" style="display: none;">
+                        <div class="col-xs-12">
+                            <div class="panel panel-default height">
+
+                                <div class="panel-body">
+                                    <div class="col-md-12" style="text-align: center;">
+                                        <img src="http://zettatech.co/assets/images/ajkershopping-logo.png"
+                                             class="img-responsive" style="margin: 0 auto;" alt=""/>
+                                        <div class="clearfix"></div>
+                                        <p style="text-align: center">BD Office: 9/1 Paramount Concord Tower Hatkhola
+                                            Road Tikatuli Dhaka 1203
+                                            Hotline: +8801861-067586
+                                            Email: support@ajkershopping.com
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="panel panel-default height">
+                                        <div class="panel-heading">Order Detail</div>
+                                        <div class="panel-body">
+                                            <span><strong>Order ID:</strong> {{order?.order_id}}</span><br>
+                                            <span><strong>Time :</strong> {{order?.time | date:'yyyy-MM-dd hh:mm a'}}</span><br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="panel panel-default height">
+                                        <div class="panel-heading">User Information</div>
+                                        <div class="panel-body">
+                                            <span><strong>Name:</strong> {{order?.user_id?.name}}</span><br>
+                                            <span><strong>Email:</strong> {{order?.user_id?.email}}</span><br>
+                                            <span><strong>Phone:</strong> {{order?.user_id?.phone}}</span><br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-xs-6">
+                            <div class="panel panel-default height">
+                                <div class="panel-heading">Payment Information</div>
+                                <div class="panel-body">
+                                    <span><strong>Payment Type:</strong> {{order?.paymentType}}</span><br>
+                                    <span><strong>Payment Status:</strong> {{order?.paymentStatus === 0 ? 'Un - Paid' : 'Paid'}}</span><br>
+                                    <ng-container *ngIf="order?.paymentInfo?.token">
+                                        <span><strong>Transaction Detail:</strong> {{order?.paymentInfo?.txn_details}}</span><br>
+                                        <span><strong>Card Detail:</strong> {{order?.paymentInfo?.card_details}}</span><br>
+                                        <span><strong>Payment Card:</strong> {{order?.paymentInfo?.payment_card}}</span><br>
+                                        <span><strong>Transaction Time:</strong> {{order?.paymentInfo?.txn_time}}</span><br>
+                                    </ng-container>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="panel panel-default height">
+                                <div class="panel-heading">Shipping Address</div>
+                                <div class="panel-body">
+                                    <span><strong>Division:</strong> {{order?.shippingAddress?.division?.name}}</span><br>
+                                    <span><strong>District:</strong> {{order?.shippingAddress?.district?.name}}</span><br>
+                                    <span><strong>Address 1:</strong> {{order?.shippingAddress?.address_1}}</span><br>
+                                    <span><strong>Address 2:</strong> {{order?.shippingAddress?.address_2}}</span><br>
+                                    <span><strong>zip:</strong> {{order?.shippingAddress?.zip}}</span><br>
+                                    <span><strong>shippingEmail:</strong> {{order?.shippingAddress?.shippingEmail}}</span><br>
+                                    <span><strong>shippingPhone:</strong> {{order?.shippingAddress?.shippingPhone}}</span><br>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-history">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Discount</th>
+                                    <th>total</th>
+                                </tr>
+                                </thead>
+                                <tbody *ngIf="order">
+                                <ng-container *ngIf=" order?.products && order?.products.length > 0">
+                                    <tr *ngFor=" let product of order?.products">
+
+                                        <td>
+                                            <h4>{{product?.name}}</h4>
+                                            <ng-container
+                                                *ngIf="product?.components && product?.components?.length > 0">
+                                                <p *ngFor="let com of product?.components">{{com?.name}}:
+                                                    {{com?.value}}</p>
+                                            </ng-container>
+
+                                        </td>
+                                        <td>
+                                            <div class="item-price">{{product?.qty}}</div>
+                                        </td>
+                                        <td>
+                                            <div class="item-price">{{product?.price}}</div>
+                                        </td>
+                                        <td>
+                                            <div class="item-price">{{product?.discount ? product?.discount + '%' :
+                                                '0.00'}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="item-price">{{(product?.discount) ? product?.qty *
+                                                (product?.price
+                                                -
+                                                (product?.price * product?.discount/100)) : product?.qty *
+                                                product?.price}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                </tbody>
+                                <tfoot *ngIf="order">
+                                <tr>
+                                    <td class="a-right" colspan="4" style="text-align: right">
+                                        Subtotal Total
+                                    </td>
+                                    <td style="" class="a-right">
+                                        <span class="price">৳{{order?.subtotal}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="a-right" colspan="4" style="text-align: right">
+                                        Discount
+                                    </td>
+                                    <td style="" class="a-right">
+                                        <span
+                                            class="price">৳{{(order?.discount == 0 ? '0.00' : order?.discount)}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="a-right" colspan="4" style="text-align: right">
+                                        <strong>Grand Total</strong>
+                                    </td>
+                                    <td style="" class="a-right">
+                                        <span class="price">৳{{order?.total}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="a-right" colspan="4" style="text-align: right">
+                                        Status
+                                    </td>
+                                    <td style="" class="a-right">
+                                        <span class="price">{{order?.status}}</span>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <br><br>
+                        <table style="width: 100%">
+                            <tr>
+                                <td style="text-align: left">For Client</td>
+                                <td style="text-align: Right">For Ajker Shopping</td>
+                            </tr>
+
+                            <tr>
+                                <td><br><br></td>
+                                <td><br><br></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left">Authorize Signature</td>
+                                <td style="text-align: Right">Authorize Signature</td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix space20"></div>
+
+<ng-container *ngIf="reviewOrder?.modalOpen">
+    <div id="reviewModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <rating [(ngModel)]="reviewOrder.rate" [max]="10" [readonly]="false"></rating>
+                        <textarea [(ngModel)]="reviewOrder.text" class="form-control"
+                                  placeholder="your review"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <ng-container *ngIf="(reviewOrder.rate > 0) && (reviewOrder.text.length > 0)">
+                        <button type="button" class="btn btn-success" data-dismiss="modal"
+                                (click)="reviewProductSubmit(reviewOrder)">Submit
+                        </button>
+                    </ng-container>
+                    <ng-container *ngIf="(reviewOrder.rate === 0) || (reviewOrder.text.length === 0)">
+                        <button type="button" class="btn btn-success" (click)="reviewProductSubmit(reviewOrder)">
+                            Submit
+                        </button>
+                    </ng-container>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                            (click)="reviewOrder.modalOpen = false">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

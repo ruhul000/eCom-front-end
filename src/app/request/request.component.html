@@ -1,0 +1,297 @@
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+    <div class="container">
+        <ul>
+            <li>All Requests</li>
+        </ul>
+    </div>
+</div>
+<!-- MY ACCOUNT -->
+<div class="account-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-4 checkout-steps">
+                <h6>All Requests</h6>
+                <app-sidebar></app-sidebar>
+            </div>
+            <div class="col-md-9 col-sm-8">
+                <div id="account-id">
+                    <h4 class="account-title"><span class="fa fa-chevron-right"></span>All Requests</h4>
+                    <div class="order-history">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-responsive">
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>User</th>
+                                            <th>Name</th>
+                                            <th>From</th>
+                                            <th>Quantity</th>
+                                            <th>URL</th>
+                                            <th>Notes</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr *ngFor="let request of requests">
+                                            <td>{{request?.time | date:'yyyy-MM-dd hh:mm a'}}</td>
+                                            <td>{{request?.user_id?.name}}</td>
+                                            <td>{{request?.name}}</td>
+                                            <td>{{request?.brand}}</td>
+                                            <td>{{request?.quantity}}</td>
+                                            <td><a [href]="request?.url" target="_blank">Requested URL link</a></td>
+                                            <td>{{request?.notes}}</td>
+                                            <td>
+                                                <button *ngIf="(layoutService?.userGroup !== 'member')" type="button"
+                                                        class="btn btn-info" data-toggle="modal" data-target="#notification"
+                                                        (click)="showNotificationModal(request);checkModaltrue();">Send Notification
+                                                </button>
+                                                <button *ngIf="(layoutService?.userGroup !== 'member')" type="button"
+                                                        class="btn btn-info" data-toggle="modal" data-target="#addCart"
+                                                        (click)="showAddCartModal(request);checkModaltrue();">Add Cart
+                                                </button>
+                                                <button *ngIf="request?.cart" type="button" class="btn btn-info" data-toggle="modal"
+                                                        data-target="#showProduct" (click)="showProductDetail(request?.cart);checkModaltrue();">View
+                                                    Product
+                                                </button>
+                                                <button type="button"
+                                                        class="btn btn-info" data-toggle="modal" data-target="#showOrderNotification"
+                                                        (click)="showOrderNotification(request);checkModaltrue();">Show Notification
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-12">
+                                <pagination [totalItems]="totalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"
+                                            class="pagination-sm" (pageChanged)="pageChanged($event)"
+                                            [itemsPerPage]="itemsPerPage" [boundaryLinks]="true"
+                                            [rotate]="false"></pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix space20"></div>
+<ng-container *ngIf="notificationModal?.showModal">
+    <div id="notification" class="modal fade" data-keyboard="false" data-backdrop="static" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" (click)="checkModalfalse();">&times;</button>
+                    <h4 class="modal-title">Send Notification</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 space20">
+                            <label>Name</label>
+                            <input type="text" name="notificationReceiver" class="form-control" disabled
+                                   [(ngModel)]="notificationModal.receiverUsername">
+                        </div>
+                        <div class="col-md-12 space20">
+                            <label>Message</label>
+                            <textarea name="notificationMessage" class="form-control"
+                                      [(ngModel)]="notificationModal.message"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-black" data-dismiss="modal" (click)="sendNotification();checkModalfalse();">Send
+                    </button>
+                    <button type="button" class="btn btn-black" data-dismiss="modal" (click)="checkModalfalse();">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="addCartModal?.showModal">
+    <div id="addCart" class="modal fade" data-keyboard="false" data-backdrop="static" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" (click)="checkModalfalse();">&times;</button>
+                    <h4 class="modal-title">Add Cart</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 space20">
+                            <label>Name</label>
+                            <input type="text" name="addCartModalName" class="form-control"
+                                   [(ngModel)]="addCartModal.name">
+                        </div>
+                        <div class="col-md-12 space20">
+                            <label>Detail</label>
+                            <input type="text" name="addCartModalDetail" class="form-control"
+                                   [(ngModel)]="addCartModal.detail">
+                        </div>
+                        <div class="col-md-12 space20">
+                            <label>Image</label>
+                            <input type="file" name="addCartModalPicture" class="form-control"
+                                   (change)="imageUpLoad($event)">
+                            <!--<span>Please upload <b>400px X 500px</b> image only.</span>-->
+                        </div>
+                        <div class="col-md-12 space20">
+                            <label>Price ($)</label>
+                            <input type="number" name="addCartModalPrice" class="form-control"
+                                   [(ngModel)]="addCartModal.price" min="1" (input)="convertTotal()">
+                        </div>
+                        <div class="col-md-12 space20">
+                            <label>Price (BDT)</label>
+                            <span>{{addCartModal?.price * settingsService?.dollarRate}}</span>
+                        </div>
+                        <div class="col-md-12 space20">
+                            <label>Quantity</label>
+                            <input type="number" name="addCartModalQuantity" class="form-control"
+                                   [(ngModel)]="addCartModal.quantity" min="1" (input)="convertTotal()">
+                        </div>
+                        <div class="col-md-12 space20">
+                            <label>Service Charge (%)</label>
+                            <input type="number" name="addCartModalService" class="form-control"
+                                   [(ngModel)]="addCartModal.service" (input)="convertTotal()">
+                        </div>
+                        <div class="col-md-12 space20">
+                            <label>Service Charge (BDT)</label>
+                                <span>{{((addCartModal.price * settingsService.dollarRate * addCartModal.quantity * addCartModal.service) / 100)}}</span>
+                        </div>
+                        <div class="col-md-12 space20">
+                            <label>Tax (type)</label>
+                            <select class="form-control" [(ngModel)]="addCartModal.taxType" (change)="convertTotal()">
+                                <option value="%">%</option>
+                                <option value="BDT">BDT</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 space20">
+                        <label>Tax ({{addCartModal.taxType}})</label>
+                        <input type="number" name="addCartModalTax" class="form-control"
+                               [(ngModel)]="addCartModal.tax" (input)="convertTotal()">
+                    </div>
+                        <div class="col-md-12 space20">
+                            <label>Tax (BDT)</label>
+                                <span>{{(addCartModal?.taxType === '%' ? ((addCartModal?.price * settingsService?.dollarRate * addCartModal?.quantity * addCartModal?.tax) / 100) : addCartModal?.tax)}}</span>
+                        </div>
+
+                        <!--<div class="col-md-12 space20">-->
+                            <!--<label>Tax (BDT)</label>-->
+                            <!--<input type="number" name="addCartModalTax" class="form-control"-->
+                                   <!--[(ngModel)]="addCartModal.tax">-->
+                        <!--</div>-->
+                        <div class="col-md-12 space20">
+                            <label>Shipping Charge (BDT)</label>
+                            <br/>
+                            <input type="checkbox" name="addCartModalToBeDeclared"
+                                   [(ngModel)]="addCartModal.shipping.toBeDeclared" (change)="toBeDeclared($event); convertTotal()">To
+                            Be Declared
+                            <input *ngIf="!addCartModal?.shipping?.toBeDeclared" type="number"
+                                   name="addCartModalShippingPrice" class="form-control col-md-8"
+                                   [(ngModel)]="addCartModal.shipping.price" (input)="convertTotal()">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Date</label>
+                            <input type="text" class="form-control" [minDate]="minDate" [(bsValue)]="showDate"
+                                   #dp="bsDatepicker" (ngModelChange)="timeChange($event)" bsDatepicker>
+                        </div>
+                        <div class="col-md-6">
+                            <timepicker [(ngModel)]="showDate" (ngModelChange)="timeChange($event)"></timepicker>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-12 space20">
+                            <span>{{outTime}}</span>
+                            <span *ngIf="!validDate">Invalid Datetime</span>
+                        </div>
+                        <div class="col-md-12 space20">
+                            <label>Total Price (BDT)</label>
+                            <span>
+                                {{total?.original}}
+                            </span>
+                        </div>
+                        <div class="col-md-12 space20">
+                            <label>Total Price (rounded)</label>
+                            <span>
+                                {{total?.round}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-black" data-dismiss="modal" (click)="addCart();checkModalfalse();">Send</button>
+                    <button type="button" class="btn btn-black" data-dismiss="modal" (click)="checkModalfalse();">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<div class="modal fade" id="showProduct" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static"
+     *ngIf="showProductDetailModal?.showModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="checkModalfalse();"><i class="fa fa-times"></i>
+            </button>
+            <div class="row">
+                <div class="col-md-5 col-sm-6" style="max-height: 80vh;overflow: hidden;">
+                    <img [src]="imageURL + showProductDetailModal?.request?.picture" alt="Image" style="display: block; width: 100%;">
+                </div>
+                <div class="col-md-7 col-sm-6">
+                    <div class="product-single">
+                        <div class="ps-header">
+                            <h3><b>{{showProductDetailModal?.request?.name}}</b></h3>
+                            <div class="ps-price">Price: ৳ {{showProductDetailModal?.request?.price}}</div>
+                            <div class="ps-price">Quantity: {{showProductDetailModal?.request?.quantity}}</div>
+                            <div class="ps-price">Service Charge({{showProductDetailModal?.request?.service}}%): ৳ {{((showProductDetailModal?.request?.price * showProductDetailModal?.request?.quantity * showProductDetailModal?.request?.service) / 100)}}</div>
+                            <div class="ps-price">Tax: ৳ {{showProductDetailModal?.request?.tax}}</div>
+                            <div class="ps-price" *ngIf="showProductDetailModal?.request?.toBeDeclared === 'false'">Shipping Charge: ৳ {{showProductDetailModal?.request?.shippingPrice}}</div>
+                            <div class="ps-price" *ngIf="showProductDetailModal?.request?.toBeDeclared === 'true'">Shipping Charge: To be announced</div>
+                            <div class="ps-price">Total: ৳ {{showProductDetailModal?.request?.total}}</div>
+                        </div>
+                        <div class="sep"></div>
+                        <p>{{showProductDetailModal?.request?.detail}}</p>
+                    </div>
+                    <div class="space10"></div>
+                    <div class="sep"></div>
+                    <a *ngIf="showProceed.button && layoutService.userGroup === 'member'" class="btn-black" style="cursor: pointer;" data-dismiss="modal" (click)="proceed();checkModalfalse();">Proceed to Checkout</a>
+                    <span *ngIf="!showProceed.button">Your Product has been expired at: {{showProceed?.expiredTime}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-container *ngIf="notificationModal?.showRequestNotification">
+    <div id="showOrderNotification" class="modal fade" data-keyboard="false" data-backdrop="static" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" (click)="checkModalfalse();">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                            <tr>
+                                <th>Send Time</th>
+                                <!--<th style="width: 20%;">Subject</th>-->
+                                <th>Message</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let data of notificationModal?.showRequestNotificationDetail">
+                                <td>{{data?.createdAt | date: 'yyyy-MM-dd hh:mm a'}}</td>
+                                <!--<td>{{data?.subject}}</td>-->
+                                <td>{{data?.message}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="checkModalfalse();notificationModal.showRequestNotification = false;">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

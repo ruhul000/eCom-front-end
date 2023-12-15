@@ -1,0 +1,96 @@
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+    <div class="container">
+        <ul>
+            <li><a href="">Home</a></li>
+            <li>Contact Us</li>
+        </ul>
+    </div>
+</div>
+
+<div class="space10"></div>
+
+<!-- BLOG CONTENT -->
+<div class="blog-content">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <aside class="col-sm-4">
+                <div class="contact-info space50">
+                    <h5 class="heading space40"><span>Contact Us</span></h5>
+                    <div class="media-list">
+                        <div class="media">
+                            <i class="pull-left fa fa-home"></i>
+                            <div class="media-body">
+                                <strong>Bangladesh Office Address:</strong><br>
+
+                                {{settingsService?.bdOffice}}<br>
+                                <strong>China Address:</strong><br>
+
+                                {{settingsService?.chinaOffice}}
+                            </div>
+                        </div>
+                        <div class="media">
+                            <i class="pull-left fa fa-phone"></i>
+                            <div class="media-body">
+                                <strong>Telephone:</strong><br>
+                                {{settingsService?.phone}}
+                            </div>
+                        </div>
+                        <div class="media">
+                            <i class="pull-left fa fa-envelope-o"></i>
+                            <div class="media-body">
+                                <strong>Email:</strong><br>
+                                {{settingsService?.email}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </aside>
+            <aside class="col-sm-8 space70">
+                <h5 class="heading space40"><span>Contact Form</span></h5>
+                <form [formGroup]="form" (submit)="submit()">
+                    <div class="row">
+                        <div class="col-md-6 space20">
+                            <input class="input-md form-control" placeholder="Name *" name="name"
+                                   formControlName="name">
+                            <span *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched">Name is required.</span>
+                        </div>
+                        <div class="col-md-6 space20">
+                            <input name="email" id="email" class="input-md form-control" formControlName="email"
+                                   type="email">
+                            <span *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched">Email is required.</span>
+                        </div>
+                    </div>
+                    <div class="space20">
+                        <input class="input-md form-control" placeholder="Subject" formControlName="subject"
+                               name="subject" type="text">
+                        <span *ngIf="form.controls['subject'].hasError('required') && form.controls['subject'].touched">Subject is required.</span>
+                    </div>
+                    <div class="space20">
+                        <textarea name="message" id="text" class="input-md form-control" rows="6" placeholder="Message"
+                                  formControlName="message"></textarea>
+                        <span *ngIf="form.controls['message'].hasError('required') && form.controls['message'].touched">Message is required.</span>
+                        <span
+                            *ngIf="form.controls['message'].hasError('maxLength') && form.controls['message'].touched">Max Length is 500.</span>
+                    </div>
+                    <button type="submit" class="btn-black" [disabled]="!form.valid">
+                        Send a Message
+                    </button>
+                </form>
+
+            </aside>
+
+            <div class="clearfix"></div>
+            <div class="col-md-12">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3071.6207130700673!2d90.41856690675448!3d23.719077688310918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b85244cfab95%3A0x9e138c5d01e36706!2sParamount+Concord!5e0!3m2!1sen!2sbd!4v1516090162271"
+                    width="100%" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="clearfix space20"></div>

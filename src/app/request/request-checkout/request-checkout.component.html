@@ -1,0 +1,212 @@
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+    <div class="container">
+        <ul>
+            <li><a>Request</a></li>
+            <li>Check OUT</li>
+        </ul>
+    </div>
+</div>
+
+<div class="space10"></div>
+
+<form class="" [formGroup]="shippingFormGroup">
+    <!-- MAIN CONTENT -->
+    <div class="shop-single shopping-cart">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="table-responsive">
+                        <table class="cart-table">
+                            <tr>
+                                <th>Product Image</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Subtotal</th>
+                            </tr>
+                            <tr>
+                                <td><img [src]="imageURL + cart?.picture" class="img-responsive" alt=""/></td>
+                                <td><h4>{{cart?.name}}</h4></td>
+                                <td>{{cart?.quantity}}</td>
+                                <td>
+                                    <div class="item-price">{{cart?.price}}</div>
+                                </td>
+                                <td>
+                                    <div class="item-price">{{cart?.price * cart?.quantity}}</div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="table">
+                            <!--<h5>Estimated delivery time: {{estimatedDate.startDate | date}}-{{estimatedDate.endDate | date}} days</h5>-->
+                            <h5>Estimated delivery time: 3-5 weeks</h5>
+                        </div>
+                    </div>
+                    <div class="clearfix space20"></div>
+
+                    <div class="row">
+                        <h4 class="account-title"><span class="fa fa-chevron-right"></span>Shipping Address</h4>
+                        <div class="clearfix"></div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group" style="display: block; !important;">
+                                <label>Division <em>*</em></label>
+                                <select *ngIf="user && user?.division && user?.division._id" class="form-control"
+                                        name="division" (change)="getDistrictsByDivision($event.target.value)"  [ngClass]="{'ng-touched': checkoutValidation?.division}"
+                                        [formControl]="shippingFormGroup.controls['division']"
+                                        [(ngModel)]="user.division._id" style="display: block; !important;">
+                                    <option *ngFor="let division of divisions" [value]="division?._id">
+                                        {{division?.name}}
+                                    </option>
+                                </select>
+                                <select *ngIf="!user?.division?._id"
+                                        class="form-control" name="division"
+                                        (change)="getDistrictsByDivision($event.target.value)"  [ngClass]="{'ng-touched': checkoutValidation?.division}"
+                                        [formControl]="shippingFormGroup.controls['division']" style="display: block; !important;">
+                                    <option *ngFor="let division of divisions" [value]="division?._id">
+                                        {{division?.name}}
+                                    </option>
+                                </select>
+                                <span *ngIf="shippingFormGroup.controls['division'].hasError('required') && shippingFormGroup.controls['division'].touched || checkoutValidation?.division">Shipping division is required.</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group" style="display: block; !important;">
+                                <label>District <em>*</em></label>
+                                <select *ngIf="user && user.district && user.district._id" class="form-control"
+                                        name="district"
+                                        [formControl]="shippingFormGroup.controls['district']" [ngClass]="{'ng-touched': checkoutValidation?.district}"
+                                        [(ngModel)]="user.district._id" style="display: block; !important;">
+                                    <option *ngFor="let district of showDistricts" [value]="district?._id">
+                                        {{district?.name}}
+                                    </option>
+                                </select>
+                                <select *ngIf="!user?.district?._id"
+                                        class="form-control" name="district" [ngClass]="{'ng-touched': checkoutValidation?.district}"
+                                        [formControl]="shippingFormGroup.controls['district']" style="display: block; !important;">
+                                    <option *ngFor="let district of showDistricts" [value]="district?._id">
+                                        {{district?.name}}
+                                    </option>
+                                </select>
+                                <span *ngIf="shippingFormGroup.controls['district'].hasError('required') && shippingFormGroup.controls['district'].touched || checkoutValidation?.district">Shipping district 1 is required.</span>
+                            </div>
+                        </div>
+                        <div class="clearfix space20"></div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Address 1 <em>*</em></label>
+                                <input type="text" class="form-control" name="address_1" [ngClass]="{'ng-touched': checkoutValidation?.address_1}"
+                                       [formControl]="shippingFormGroup.controls['address_1']"
+                                       [(ngModel)]="user.address_1" required>
+                                <span *ngIf="shippingFormGroup.controls['address_1'].hasError('required') && shippingFormGroup.controls['address_1'].touched || checkoutValidation?.address_1">Shipping address 1 is required.</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Address 2</label>
+                                <input type="text" class="form-control" name="address_2"
+                                       [formControl]="shippingFormGroup.controls['address_2']"
+                                       [(ngModel)]="user.address_2">
+                                <span *ngIf="shippingFormGroup.controls['address_2'].hasError('required') && shippingFormGroup.controls['address_2'].touched">Shipping address 2 is required.</span>
+                            </div>
+                        </div>
+                        <div class="clearfix space20"></div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Zip/Postal Code <em>*</em></label>
+                                <input type="text" class="form-control" name="zip" [ngClass]="{'ng-touched': checkoutValidation?.zip}"
+                                       [formControl]="shippingFormGroup.controls['zip']" [(ngModel)]="user.zip"
+                                       required>
+                                <span *ngIf="shippingFormGroup.controls['zip'].hasError('required') && shippingFormGroup.controls['zip'].touched || checkoutValidation?.zip">Shipping zip is required.</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control" name="shippingEmail"
+                                       [formControl]="shippingFormGroup.controls['shippingEmail']"
+                                       [(ngModel)]="user.shippingEmail">
+                                <span *ngIf="shippingFormGroup.controls['shippingEmail'].hasError('required') && shippingFormGroup.controls['shippingEmail'].touched">Shipping email is required.</span>
+                            </div>
+                        </div>
+                        <div class="clearfix space20"></div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label>Phone Number <em>*</em></label>
+                                <input type="text" class="form-control" name="shippingPhone" [ngClass]="{'ng-touched': checkoutValidation?.shippingPhone}"
+                                       [formControl]="shippingFormGroup.controls['shippingPhone']"
+                                       [(ngModel)]="user.shippingPhone" required>
+                                <span *ngIf="shippingFormGroup.controls['shippingPhone'].hasError('required') && shippingFormGroup.controls['shippingPhone'].touched || checkoutValidation?.shippingPhone">Shipping Phone is required.</span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row shipping-info-wrap">
+                        <div class="col-sm-offset-8 col-sm-4 col-xs-12">
+                            <div class="totals">
+                                <table id="shopping-cart-totals-table" style="width: 100%;">
+                                    <tbody>
+                                    <tr>
+                                        <td class="a-right" colspan="1">Subtotal Total</td>
+                                        <td class="a-right"><span class="price">৳{{cart?.price * cart?.quantity}}</span>
+                                        </td>
+                                    </tr>
+                                    <!--((this.addCartModal.price * this.settingsService.dollarRate * this.addCartModal.quantity * this.addCartModal.service) / 100) + this.addCartModal.price * this.settingsService.dollarRate * this.addCartModal.quantity + this.addCartModal.tax + this.addCartModal.shipping.price-->
+                                    <tr>
+                                        <td style="" class="a-right" colspan="1">Service</td>
+                                        <td style="" class="a-right">
+                                            <span class="price">{{cart?.service}}%</span>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="cart?.toBeDeclared !== 'false'">
+                                        <td style="" class="a-right" colspan="1">Shipping Price</td>
+                                        <td style="" class="a-right"><span class="price">৳{{cart?.shippingPrice}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="" class="a-right" colspan="1">Tax</td>
+                                        <td style="" class="a-right"><span class="price">৳{{cart?.tax}}</span></td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td style="" class="a-right" colspan="1">
+                                            <strong>Grand Total</strong>
+                                        </td>
+                                        <td style="" class="a-right">
+                                            <span class="price">৳{{cart?.total}}</span>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+
+                                </table>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Payment</label>
+                                        <select class="form-control" name="paymentType"
+                                                [formControl]="shippingFormGroup.controls['paymentType']">
+                                            <option selected value="Walletmix">Walletmix</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <ul class="checkout-types">
+                                    <li class="space10">
+                                        <button type="submit" class="btn-color" *ngIf="layoutService?.isLogin && (layoutService?.userGroup !== 'admin')"
+                                                (click)="makePayment();">Proceed to Payment
+                                        </button>
+                                    </li>
+                                    <li class="space10">
+                                        <button type="button" class="btn-color" *ngIf="!layoutService?.isLogin"
+                                                (click)="goToLogin();">Please Login For Checkout
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix space20"></div>
+</form>

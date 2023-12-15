@@ -1,0 +1,115 @@
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+    <div class="container">
+        <ul>
+            <li>Home</li>
+            <li>All Orders</li>
+        </ul>
+    </div>
+</div>
+<!-- MY ACCOUNT -->
+<div class="account-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-4 checkout-steps">
+                <h6>All Orders</h6>
+                <app-sidebar></app-sidebar>
+            </div>
+            <div class="col-md-9 col-sm-8">
+                <!-- HTML -->
+                <div id="account-id">
+                    <h4 class="account-title"><span class="fa fa-chevron-right"></span>Your Order History</h4>
+                    <div class="order-history">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Order ID</th>
+                                    <th>Subtotal</th>
+                                    <th>Discount</th>
+                                    <th>total</th>
+                                    <th>Payment Status</th>
+                                    <th>Payment Type</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let order of orders">
+                                    <td>{{order?.time | date:'yyyy-MM-dd hh:mm a'}}</td>
+                                    <td>{{order?.order_id}}</td>
+                                    <td>{{order?.subtotal}}</td>
+                                    <td>{{order?.discount}}</td>
+                                    <td>{{order?.total}}</td>
+                                    <td>{{order?.paymentStatus === 0 ? 'Un - Paid' : 'Paid'}}</td>
+                                    <td>{{order?.paymentType}}</td>
+                                    <td>
+                                        <div class="item-price">{{order?.status}}</div>
+                                    </td>
+                                    <td>
+                                        <a [routerLink]="'/order/detail/'+ order._id" class="btn-black">Detail</a>
+                                        <button type="button"
+                                                class="btn btn-info" data-toggle="modal"
+                                                data-target="#showOrderNotification"
+                                                (click)="showOrderNotification(order)">Show Notification
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-12">
+                                <pagination [totalItems]="totalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"
+                                            class="pagination-sm" (pageChanged)="pageChanged($event)"
+                                            [itemsPerPage]="itemsPerPage" [boundaryLinks]="true"
+                                            [rotate]="false"></pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix space20"></div>
+<ng-container *ngIf="notificationModal?.showOrderNotification">
+    <div id="showOrderNotification" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                            <tr>
+                                <th>Send Time</th>
+                                <!--<th style="width: 20%;">Subject</th>-->
+                                <th>Message</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let data of notificationModal?.showOrderNotificationDetail">
+                                <td>{{data?.createdAt | date: 'yyyy-MM-dd hh:mm a'}}</td>
+                                <!--<td>{{data?.subject}}</td>-->
+                                <td>{{data?.message}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                            (click)="notificationModal.showOrderNotification = false">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

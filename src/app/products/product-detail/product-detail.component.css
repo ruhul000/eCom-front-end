@@ -1,0 +1,116 @@
+.product-single h3 {
+  margin: 0 0 5px;
+  font-size: 18px;
+}
+.ratings-wrap {
+  margin-bottom: 8px;
+  display: table;
+}
+.ps-price {
+  font-size: 16px;
+  color: #333;
+  font-family: Montserrat;
+  margin: 0 0 10px;
+}
+
+.sep {
+  height: 1px;
+  background: #cccccc;
+  width: 100%;
+  margin: 15px 0 12px;
+}
+.ps-color a {
+  width: 26px;
+  height: 26px;
+  display: inline-block;
+}
+.ps-price span {
+  font-size: 13px;
+  text-decoration: line-through;
+  color: #aaa;
+}
+.ratings span.act {
+  color: #ffcc01;
+}
+.ratings-wrap .ratings {
+  float: left;
+}
+.ratings-wrap em {
+  margin-left: 8px;
+  font-size: 12px;
+  color: #666666;
+  font-style: normal;
+}
+.share a {
+  width: 28px;
+  height: 28px;
+  background: #444;
+  font-size: 14px;
+  border-radius: 3px;
+  line-height: 28px;
+  text-align: center;
+  color: #FFF;
+  display: inline-block;
+  margin-right: 5px;
+}
+.share a:hover {
+  background: #D6644A;
+  color: #FFF;
+}
+.addtobag {
+  height: 31px;
+  line-height: 31px;
+  background: #d6644a;
+  padding: 0 15px;
+  display: inline-block;
+  font-family: Montserrat;
+  font-size: 11px;
+  border-radius: 3px;
+  color: #fff;
+  text-transform: uppercase;
+  margin: 8px 0 0;
+}
+.reviews-tab p {
+  color: #666666;
+  margin: 0;
+}
+.reviews-tab .sep {
+  background: #eeeeee;
+}
+.reviews-tab form h5 {
+  font-family: Montserrat;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #444;
+  font-weight: 400;
+  margin: 35px 0 15px;
+}
+.reviews-tab form label {
+  display: block;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+.reviews-tab form input {
+  border: solid 1px #ccc;
+  max-width: 376px;
+  width: 100%;
+  height: 43px;
+  line-height: 41px;
+  padding: 0 20px;
+}
+.reviews-tab form textarea {
+  border: solid 1px #ccc;
+  width: 100%;
+  max-width: 575px;
+  height: 214px;
+  padding: 25px 20px;
+}
+
+
+.nav-tabs > li.active > a {
+    padding: 20px 25px;
+    top: 1px;
+}
+.nav-tabs > li > a {
+    top: 0px;
+}

@@ -1,0 +1,149 @@
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+    <div class="container">
+        <ul>
+            <li><a routerLink="">Home</a></li>
+            <li>My Account</li>
+        </ul>
+    </div>
+</div>
+
+
+<!-- MY ACCOUNT -->
+<div class="account-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-4 checkout-steps">
+                <h6>Account</h6>
+                <app-sidebar></app-sidebar>
+            </div>
+            <div class="col-md-9 col-sm-8">
+                <div id="account-id">
+                    <h4 class="account-title"><span class="fa fa-chevron-right"></span>Change Your Personal Details</h4>
+                    <div class="account-form">
+                        <form class="" [formGroup]="userPersonalFormGroup">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Name <em>*</em></label>
+                                        <input class="form-control" required type="text" name="name"
+                                               [formControl]="userPersonalFormGroup.controls['name']"
+                                               [(ngModel)]="user.name">
+                                        <span *ngIf="validationError['name']">{{validationError['name']}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Email <em>*</em></label>
+                                        <input class="form-control" required type="text" name="email"
+                                               [formControl]="userPersonalFormGroup.controls['email']"
+                                               [(ngModel)]="user.email">
+                                        <span *ngIf="validationError['email']">{{validationError['email']}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Phone Number <em>*</em></label>
+                                        <input class="form-control" required type="text" name="phone"
+                                               [formControl]="userPersonalFormGroup.controls['phone']"
+                                               [(ngModel)]="user.phone">
+                                        <span *ngIf="validationError['phone']">{{validationError['phone']}}</span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <h4 class="account-title"><span class="fa fa-chevron-right"></span>Shipping Address</h4>
+                                <div class="clearfix"></div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group" style="display: block; !important;">
+                                        <label>Division <em>*</em></label>
+                                        <select *ngIf="user && user?.division && user?.division._id" class="form-control"
+                                                name="division" (change)="getDistrictsByDivision($event.target.value)"
+                                                [formControl]="userPersonalFormGroup.controls['division']"
+                                                [(ngModel)]="user.division._id" style="display: block; !important;">
+                                            <option *ngFor="let division of divisions" [value]="division?._id">
+                                                {{division?.name}}
+                                            </option>
+                                        </select>
+                                        <select *ngIf="!user?.division?._id"
+                                                class="form-control" name="division"
+                                                (change)="getDistrictsByDivision($event.target.value)"
+                                                [formControl]="userPersonalFormGroup.controls['division']" style="display: block; !important;">
+                                            <option *ngFor="let division of divisions" [value]="division?._id">
+                                                {{division?.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group" style="display: block; !important;">
+                                        <label>District <em>*</em></label>
+                                        <select *ngIf="user && user.district && user.district._id" class="form-control"
+                                                name="district"
+                                                [formControl]="userPersonalFormGroup.controls['district']"
+                                                [(ngModel)]="user.district._id" style="display: block; !important;">
+                                            <option *ngFor="let district of showDistricts" [value]="district?._id">
+                                                {{district?.name}}
+                                            </option>
+                                        </select>
+                                        <select *ngIf="!user?.district?._id"
+                                                class="form-control" name="district"
+                                                [formControl]="userPersonalFormGroup.controls['district']" style="display: block; !important;">
+                                            <option *ngFor="let district of showDistricts" [value]="district?._id">
+                                                {{district?.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Address 1 <em>*</em></label>
+                                        <input required type="text" class="form-control" name="address_1"
+                                               [formControl]="userPersonalFormGroup.controls['address_1']"
+                                               [(ngModel)]="user.address_1">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Address 2</label>
+                                        <input type="text" class="form-control" name="address_2"
+                                               [formControl]="userPersonalFormGroup.controls['address_2']"
+                                               [(ngModel)]="user.address_2">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Zip/Postal Code <em>*</em></label>
+                                        <input required type="text" class="form-control" name="zip"
+                                               [formControl]="userPersonalFormGroup.controls['zip']"
+                                               [(ngModel)]="user.zip">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="text" class="form-control" name="shippingEmail"
+                                               [formControl]="userPersonalFormGroup.controls['shippingEmail']"
+                                               [(ngModel)]="user.shippingEmail">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <input type="text" class="form-control" name="shippingPhone"
+                                               [formControl]="userPersonalFormGroup.controls['shippingPhone']"
+                                               [(ngModel)]="user.shippingPhone">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="buttons-set">
+                                <button class="btn-black" type="button" (click)="userPersonalFormSubmit()">
+                                    <span><span>Update</span></span></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix space20"></div>

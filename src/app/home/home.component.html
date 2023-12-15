@@ -1,0 +1,216 @@
+<!-- SLIDER -->
+<carousel>
+    <slide *ngFor="let slider of sliders">
+        <img [src]="imageURL + slider.photo_url" alt="Image" style="display: block; width: 100%;">
+    </slide>
+</carousel>
+
+
+<div class="clearfix space20"></div>
+
+
+<div class="block-main container">
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <div class="block-content">
+                <img [src]="imageURL + settingsService?.amazon_photo" class="img-responsive" alt=""/>
+                <div class="bs-text-center text-center">
+                    Amazon <span>{{settingsService?.amazon_text}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <div class="block-content">
+                <img [src]="imageURL + settingsService?.ali_express_photo" class="img-responsive" alt=""/>
+                <div class="bs-text-center text-center">
+                    Ali Express <span>{{settingsService?.ali_express_text}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+<div class="space30"></div>
+
+<!-- FEATURED PRODUCTS -->
+<div class="container padding40">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <h5 class="heading space40"><span>{{settingsService?.proHeader1}}</span></h5>
+            <div class="row">
+                <div class="col-md-3 col-sm-6" *ngFor="let featuredProduct of featuredProducts">
+                    <div class="product-item">
+                        <div class="item-thumb">
+                            <span class="badge new" *ngIf="featuredProduct?.new">New</span>
+                            <span class="badge offer"
+                                  *ngIf="featuredProduct?.discount">{{featuredProduct?.discount}}%</span>
+                            <img [src]="imageURL + featuredProduct?.images[0]" class="img-responsive" alt=""/>
+                            <div class="overlay-rmore fa fa-search quickview" data-toggle="modal" data-target="#myModal"
+                                 (click)="showProductModal(featuredProduct)"></div>
+                            <div class="product-overlay">
+                                <a class="addcart fa fa-shopping-cart" data-toggle="modal" data-target="#myModal" (click)="showProductModal(featuredProduct)"></a>
+                                <!--<a class="likeitem fa fa-heart-o"></a>-->
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4 class="product-title"><a [routerLink]="'/product/detail/' + featuredProduct?._id"><b>{{featuredProduct?.name}}</b></a>
+                            </h4>
+                            <div class="ps-price" *ngIf="!featuredProduct?.discount">৳ {{featuredProduct?.price}}</div>
+                            <div class="ps-price" *ngIf="featuredProduct?.discount">
+                                <span>৳ {{featuredProduct?.price}}</span> ৳ {{(featuredProduct?.price -
+                                (featuredProduct?.price*featuredProduct?.discount/100))}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row"><div class="col-md-offset-4 col-md-4"><a routerLink="/product/feature" class="btn btn-block btn-black">All {{settingsService?.proHeader1}}</a></div></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- POLICY -->
+<div class="policy-item parallax-bg1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-3">
+                <div class="pi-wrap text-center">
+                    <i class="fa fa-plane"></i>
+                    <h4>Free shipping<span>Free shipping on all UK order</span></h4>
+                    <p>Nulla ac nisi egestas metus aliquet euismod. Sed pulvinar lorem at pretium.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+                <div class="pi-wrap text-center">
+                    <i class="fa fa-money"></i>
+                    <h4>Money Guarantee<span>30 days money back guarantee !</span></h4>
+                    <p>Curabitur ornare urna enim, et lacinia purus tristique eulla eget feugiat diam.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+                <div class="pi-wrap text-center">
+                    <i class="fa fa-clock-o"></i>
+                    <h4>Store Hours<span>Open: 9:00AM - Close: 21:00PM</span></h4>
+                    <p>Etiam egestas purus eget sagittis lacinia. Morbi vel elit nec eros iaculis.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+                <div class="pi-wrap text-center">
+                    <i class="fa fa-life-ring"></i>
+                    <h4>Support 24/7<span>We support online 24 hours a day</span></h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit integer congue.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="space30 clearfix"></div>
+
+<!-- New arrivals -->
+<div class="container padding40">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <h5 class="heading space40"><span>{{settingsService?.proHeader2}}</span></h5>
+            <div class="row">
+                <div class="col-md-3 col-sm-6" *ngFor="let featuredProduct of newArival">
+                    <div class="product-item">
+                        <div class="item-thumb">
+                            <span class="badge new" *ngIf="featuredProduct?.new">New</span>
+                            <span class="badge offer"
+                                  *ngIf="featuredProduct?.discount">{{featuredProduct?.discount}}%</span>
+                            <img [src]="imageURL + featuredProduct?.images[0]" class="img-responsive" alt=""/>
+                            <!--<div class="overlay-rmore fa fa-search quickview" data-toggle="modal" data-target="#myModal" (click)="layoutService.getProduct(featuredProduct?._id)"></div>-->
+                            <div class="overlay-rmore fa fa-search quickview" data-toggle="modal" data-target="#myModal"
+                                 (click)="showProductModal(featuredProduct)"></div>
+                            <div class="product-overlay">
+                                <a class="addcart fa fa-shopping-cart" data-toggle="modal" data-target="#myModal" (click)="showProductModal(featuredProduct)"></a>
+                                <!--<a href="#" class="compare fa fa-signal"></a>-->
+                                <!--<a href="#" class="likeitem fa fa-heart-o"></a>-->
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4 class="product-title"><a [routerLink]="'/product/detail/' + featuredProduct?._id"><b>{{featuredProduct?.name}}</b></a>
+                            </h4>
+                            <div class="ps-price" *ngIf="!featuredProduct?.discount">৳ {{featuredProduct?.price}}</div>
+                            <div class="ps-price" *ngIf="featuredProduct?.discount">
+                                <span>৳ {{featuredProduct?.price}}</span> ৳ {{(featuredProduct?.price -
+                                (featuredProduct?.price*featuredProduct?.discount/100))}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row"><div class="col-md-offset-4 col-md-4"><a routerLink="/product/newArival" class="btn btn-block btn-black">All {{settingsService?.proHeader2}}</a></div></div>
+        </div>
+    </div>
+</div>
+
+<div class="space30 clearfix"></div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" *ngIf="showModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i>
+            </button>
+            <div class="row">
+                <div class="col-md-5 col-sm-6">
+                    <carousel>
+                        <slide *ngFor="let image of showModalProduct.images">
+                            <img src="{{imageURL + image}}" alt="Image" style="display: block; width: 100%;">
+                        </slide>
+                    </carousel>
+                </div>
+                <div class="col-md-7 col-sm-6">
+                    <div class="product-single">
+                        <div class="ps-header">
+                            <span class="badge new" *ngIf="showModalProduct.new">New</span>
+                            <span class="badge offer"
+                                  *ngIf="showModalProduct.discount">{{showModalProduct.discount}}%</span>
+                            <h3><b>{{showModalProduct.name}}</b></h3>
+                            <div class="ps-price" *ngIf="!showModalProduct.discount">৳ {{showModalProduct.price}}</div>
+                            <div class="ps-price" *ngIf="showModalProduct.discount">
+                                <span>৳ {{showModalProduct.price}}</span> ৳ {{(showModalProduct.price -
+                                (showModalProduct.price*showModalProduct.discount/100))}}
+                            </div>
+
+                        </div>
+
+                        <div class="ps-stock">
+                            Available: <a href="#">In Stock</a>
+                        </div>
+                        <div class="sep"></div>
+                        <p>{{showModalProduct.detail}}</p>
+                        <div class="space10"></div>
+                        <div class="row select-wraps">
+                            <div class="col-md-6 col-sm-6" *ngFor="let com of compo2;">
+                                <p>{{com.name}}<span>*</span></p>
+                                <select class="form-control" (change)="selectComponent(com.name, $event.target.value)">
+                                    <option *ngFor=" let val of com.value;" [value]="val">{{val}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-md-6 col-sm-6">
+                                <p>Quantity<span>*</span></p>
+                                <input type="number" class="form-control" min="1" name="compoQty"
+                                       [(ngModel)]="compoQty">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space20"></div>
+                    <div class="sep"></div>
+                    <a class="btn-color" style="cursor: pointer;" data-dismiss="modal"
+                       (click)="layoutService.addToCart(showModalProduct._id, 'local', compo, compoQty);toastr.success('Product has been added to cart.', 'Success!');">Add to
+                        Bag</a>
+                    <a class="btn-black" style="cursor: pointer;" data-dismiss="modal"
+                       [routerLink]="'/product/detail/' + showModalProduct._id">Go to Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

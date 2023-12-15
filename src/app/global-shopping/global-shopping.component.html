@@ -1,0 +1,100 @@
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+    <div class="container">
+        <ul>
+            <li><a href="">Home</a></li>
+            <li>Global Shopping</li>
+        </ul>
+    </div>
+</div>
+<div class="space30"></div>
+
+<!-- SLIDER -->
+<carousel>
+    <slide *ngFor="let slider of sliders">
+        <img [src]="imageURL + slider?.photo_url" alt="Image" style="display: block; width: 100%;">
+    </slide>
+</carousel>
+
+<!-- BLOG CONTENT -->
+<div class="blog-content">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <aside class="col-sm-12">
+                <h5 class="heading space40"><span>Request Product</span></h5>
+                <form [formGroup]="requestProduct" (submit)="requestProductSubmit()">
+                    <div class="row">
+                        <div class="col-md-6 space20">
+                            <label>Product Name<span class="text-danger">*</span></label>
+                            <input name="name" class="input-md form-control" [ngClass]="{'ng-touched': checkoutValidation?.name}" placeholder="Product Name" formControlName="name"
+                                   type="text">
+                            <span *ngIf="requestProduct.controls['name'].hasError('required') && requestProduct.controls['name'].touched || checkoutValidation?.name">Product Name is required.</span>
+                        </div>
+                        <div class="col-md-6 space20">
+                            <label>From<span class="text-danger">*</span></label>
+                            <select name="brand" class="form-control" formControlName="brand" required>
+                                <option value="Amazon">Amazon</option>
+                                <option value="Ali Express">Ali Express</option>
+                                <option value="Alibaba">Alibaba</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-6 space20">
+                            <label>URL<span class="text-danger">*</span></label>
+                            <input name="url" class="input-md form-control" [ngClass]="{'ng-touched': checkoutValidation?.url}" placeholder="URL" formControlName="url"
+                                   type="text">
+                            <span *ngIf="requestProduct.controls['url'].hasError('required') && requestProduct.controls['url'].touched || checkoutValidation?.url">URL is required.</span>
+                        </div>
+                        <div class="col-md-6 space20">
+                            <label>Quantity<span class="text-danger">*</span></label>
+                            <input name="quantity" class="input-md form-control" [ngClass]="{'ng-touched': checkoutValidation?.quantity}" placeholder="quantity"
+                                   formControlName="quantity" type="number" min="0">
+                            <span *ngIf="requestProduct.controls['quantity'].hasError('required') && requestProduct.controls['quantity'].touched || checkoutValidation?.quantity">Quantity is required.</span>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-6 space20">
+                            <label>Notes</label>
+                            <input name="notes" class="input-md form-control" placeholder="Size, Color, etc."
+                                   formControlName="notes" type="text">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-black" *ngIf="layoutService?.isLogin"
+                            (click)="requestProductSubmit()">
+                        Submit
+                    </button>
+                    <button type="button" class="btn-color" *ngIf="!layoutService?.isLogin" (click)="goToLogin();">Please
+                        Login For Submit
+                    </button>
+                </form>
+            </aside>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="clearfix space20"></div>
+<!-- BLOCKS WRAP -->
+<div class="block-main container">
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <div class="block-content">
+                <img [src]="imageURL + settingsService?.amazon_photo" class="img-responsive" alt=""/>
+                <div class="bs-text-center text-center">
+                    Amazon <span>Get a new look with Smile Collection</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <div class="block-content">
+                <img [src]="imageURL + settingsService?.ali_express_photo" class="img-responsive" alt=""/>
+                <div class="bs-text-center text-center">
+                    Ali Express <span>Get a new look with Smile Collection</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+<div class="space30"></div>

@@ -1,0 +1,107 @@
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+    <div class="container">
+        <ul>
+            <li><a>Order</a></li>
+            <li>Shopping Cart</li>
+        </ul>
+    </div>
+</div>
+
+<div class="space10"></div>
+
+<!-- MAIN CONTENT -->
+<div class="shop-single shopping-cart">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="table-responsive">
+                    <table class="cart-table">
+                        <tr>
+                            <th>Product Image</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Subtotal</th>
+                            <th>Remove</th>
+                        </tr>
+                        <tr *ngFor="let cartdata of layoutService?.cart">
+                            <td><img [src]="imageURL + cartdata?.images" class="img-responsive" alt=""/></td>
+                            <td>
+                                <h4><a [routerLink]="'/product/detail/' + cartdata?._id">{{cartdata?.name}}</a></h4>
+                            </td>
+                            <td>
+                                <input type="number" (input)="layoutService?.changeCartQty(cartdata, $event.target.value)"
+                                       [(ngModel)]="cartdata.qty">
+                            </td>
+                            <td>
+                                <div class="item-price">{{cartdata?.discount ? (cartdata?.price -
+                                    (cartdata?.price*cartdata?.discount/100)) : cartdata?.price}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="item-price">{{cartdata?.discount ? cartdata?.qty*(cartdata?.price -
+                                    (cartdata?.price*cartdata?.discount/100)) : cartdata?.qty*cartdata?.price}}
+                                </div>
+                            </td>
+                            <td><i class="fa fa-trash-o" (click)="layoutService?.removeToCart(cartdata)"></i></td>
+                        </tr>
+                    </table>
+                    <div class="table-btn">
+                        <a [routerLink]="'/product'" class="btn-black pull-left">Continue Shopping</a>
+                    </div>
+                </div>
+                <div class="clearfix space20"></div>
+                <div class="row shipping-info-wrap">
+                    <div class="col-sm-offset-8 col-sm-4 col-xs-12">
+                        <div class="totals">
+                            <table id="shopping-cart-totals-table" style="width: 100%;">
+                                <tbody>
+                                <tr>
+                                    <td style="" class="a-right" colspan="1">
+                                        Subtotal Total
+                                    </td>
+                                    <td style="" class="a-right">
+                                        <span class="price">৳{{layoutService?.total_price}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="" class="a-right" colspan="1">
+                                        Discount
+                                    </td>
+                                    <td style="" class="a-right">
+                                        <span class="price">৳{{(layoutService?.total_discount == 0 ? '0.00' : layoutService?.total_discount)}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="" class="a-right" colspan="1">
+                                        Shipping Price
+                                    </td>
+                                    <td style="" class="a-right">
+                                        <span class="price">৳{{(layoutService?.total_shippingPrice == 0 ? '0.00' : layoutService?.total_shippingPrice)}}</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td style="" class="a-right" colspan="1">
+                                        <strong>Grand Total</strong>
+                                    </td>
+                                    <td style="" class="a-right">
+                                        <span class="price">৳{{layoutService?.grand_total}}</span>
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                            <ul class="checkout-types">
+                                <li class="space10"><a routerLink="/order/checkout" class="btn-color">Proceed to
+                                    checkout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix space20"></div>

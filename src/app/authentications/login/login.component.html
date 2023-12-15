@@ -1,0 +1,124 @@
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+    <div class="container">
+        <ul>
+            <li><a routerLink="">Home</a></li>
+            <li>Contact Us</li>
+        </ul>
+    </div>
+</div>
+
+<div class="space10"></div>
+
+<!-- BLOG CONTENT -->
+<div class="blog-content">
+    <div class="container">
+
+        <div class="row">
+            <!-- Sidebar -->
+            <aside class="col-sm-6">
+                <h5 class="heading space40"><span>Login</span></h5>
+                <form [formGroup]="login" (submit)="loginSubmit()">
+                    <div class="row">
+                        <div class="col-md-12 space20">
+                            <label>Email<span class="text-danger">*</span></label>
+                            <input name="email" class="input-md form-control" placeholder="Email"
+                                   formControlName="email" type="email" autocomplete="off">
+                            <span
+                                *ngIf="login.controls['email'].hasError('required') && login.controls['email'].touched">Email is required.</span>
+                            <span *ngIf="login.controls['email'].hasError('email') && login.controls['email'].touched">Email is Not Valid.</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 space20">
+                            <label>Password<span class="text-danger">*</span></label>
+                            <input name="password" class="input-md form-control" placeholder="Password"
+                                   formControlName="password" type="password" autocomplete="off">
+                            <span
+                                *ngIf="login.controls['password'].hasError('required') && login.controls['password'].touched">Password is required.</span>
+                        </div>
+                    </div>
+                    <div>
+                    <button type="submit" class="btn btn-black" [disabled]="!login.valid">
+                        Submit
+                    </button>
+                        <div class="pull-right"> Forgot Password? <a routerLink="/forgot-password">Click </a> here </div>
+                    </div>
+                </form>
+                <div class="clearfix" style="margin-top: 10px;"></div>
+                <h5 class="heading space40"><span>OR</span></h5>
+                <button class="btn btn-lg btn-primary btn-block" (click)="loginWithFacebook()">
+                    Login With Facebook
+                </button>
+            </aside>
+
+            <aside class="col-sm-6">
+                <h5 class="heading space40"><span>Register</span></h5>
+                <form [formGroup]="register" (submit)="registerSubmit()">
+                    <div class="row">
+                        <div class="col-md-12 space20">
+                            <label>Full Name<span class="text-danger">*</span></label>
+                            <input name="name" class="input-md form-control" placeholder="Full Name"
+                                   formControlName="name" type="text">
+                            <span
+                                *ngIf="register.controls['name'].hasError('required') && register.controls['name'].touched">Name is required.</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 space20">
+                            <label>Email<span class="text-danger">*</span></label>
+                            <input name="email" class="input-md form-control" placeholder="Email"
+                                   formControlName="email" type="email">
+                            <span
+                                *ngIf="register.controls['email'].hasError('required') && register.controls['email'].touched">Email is required.</span>
+                            <span
+                                *ngIf="register.controls['email'].hasError('email') && register.controls['email'].touched">Email is Not Valid.</span>
+                            <span
+                                *ngIf="validationError['email']">Email is already been taken.</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 space20">
+                            <label>Phone<span class="text-danger">*</span></label>
+                            <input name="phone" class="input-md form-control" formControlName="phone"
+                                   placeholder="Phone" type="text">
+                            <span
+                                *ngIf="register.controls['phone'].hasError('required') && register.controls['phone'].touched">Phone is required.</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 space20">
+                            <label>Password<span class="text-danger">*</span></label>
+                            <input name="password" class="input-md form-control" formControlName="password"
+                                   placeholder="Password" (keyup)="passClick()" type="password">
+                            <span
+                                *ngIf="register.controls['password'].hasError('required') && register.controls['password'].touched">Password is required.</span>
+                            <span
+                                *ngIf="!register.controls['password'].hasError('required') && register.controls['password'].invalid">Password must be at least 8 characters long.</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 space20">
+                            <label>Confirm Password<span class="text-danger">*</span></label>
+                            <input name="confirmPassword" class="input-md form-control" placeholder="Confirm Password"
+                                   formControlName="confirmPassword"
+                                   [ngClass]="{'ng-invalid': register.controls['password'].value != register.controls['confirmPassword'].value}"
+                                   type="password">
+                            <span
+                                *ngIf="register.controls['password'].touched && register.controls['password'].value != register.controls['confirmPassword'].value">Password not matched.</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-black"
+                            [disabled]="!register.valid || register.controls['password'].value != register.controls['confirmPassword'].value">
+                        Submit
+                    </button>
+                </form>
+
+            </aside>
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+</div>
+
+<div class="clearfix space20"></div>

@@ -1,0 +1,14 @@
+
+.contact-info .media i {
+  background-color: #ededed;
+  border-radius: 50%;
+  color: #333333;
+  display: inline-block;
+  font-size: 16px;
+  height: 35px;
+  line-height: 33px;
+  margin: auto 15px auto auto;
+  padding: 0;
+  text-align: center;
+  width: 35px;
+}

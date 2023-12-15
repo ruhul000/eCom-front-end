@@ -1,0 +1,117 @@
+.btn.focus, .btn:focus, .btn:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+bs-datepicker-container, bs-daterangepicker-container {
+    z-index: 111111111 !important;
+}
+.nav > li > a {
+    padding: 20px 35px;
+}
+#toast-container {
+    z-index: 111111133 !important;
+}
+
+.form-group .gg {
+    display: block !important;
+}
+
+.selectboxit-container {
+    display: none !important;
+}
+
+.checkout-steps toast-container div {
+    padding: 0px !important;
+    background: transparent;
+}
+
+.toast-success {
+    background-color: #51a351 !important;
+}
+
+.toast-error {
+    background-color: #bd362f !important;
+}
+
+.toast-success div {
+    background-color: #51a351 !important;
+    padding: 0px !important;
+}
+
+.toast-error div {
+    background-color: #bd362f !important;
+    padding: 0px !important;
+}
+
+#toast-container > div {
+    position: relative !important;
+    overflow: hidden !important;
+    margin: 0 0 6px !important;
+    padding: 15px 15px 15px 50px !important;
+    width: 300px !important;
+    border-radius: 3px 3px 3px 3px !important;
+    background-position: 15px !important;
+    background-repeat: no-repeat !important;
+    box-shadow: 0 0 12px #999 !important;
+    color: #fff !important;
+    opacity: .8 !important;
+}
+.ng-valid.ng-touched{
+    border-color: #3cc70f;
+}
+.ng-invalid.ng-touched{
+    border-color: #b3110e;
+}
+.navbar-brand > img {
+    display: block;
+    height: 55px;
+    transition: .4s;
+    margin-top: -10px;
+}
+.tbr-info a:hover {
+    color: #d6644a;
+}
+.tbr-info a:focus {
+    color: #cccccc;
+}
+.tbr-info a {
+    color: #cccccc;
+}
+
+.tbr-inner a:hover {
+    color: #fff;
+}
+.modal-content .product-single{
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+}
+.product-item {
+    margin-bottom: 38px;
+    min-height: 478px;
+}
+@media only screen and (max-width: 767px) and (min-width: 200px){
+    .header-xtra {
+        display: block;
+    }
+    .is-sticky header {
+        height: 115px !important;
+    }
+    header {
+        height: 115px !important;
+    }
+    .navbar-collapse {
+        width: 100%;
+    }
+}
+@media (max-width: 768px){
+    .nav>li>a {
+        padding: 14px 10px;
+    }
+    .product-item {
+        min-height: 578px;
+    }
+}
+

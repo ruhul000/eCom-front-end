@@ -1,0 +1,51 @@
+.cart-table {
+    width: 100%;
+    background: #ffffff;
+}
+
+.cart-table tr th {
+    border: 1px solid #cccccc;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 12px;
+    color: #333;
+    text-transform: uppercase;
+    font-weight: 400;
+    padding: 15px 10px;
+}
+
+.cart-table tr th, .cart-table tr td {
+    border: 1px solid #cccccc;
+    text-align: center;
+}
+
+.cart-table tr td {
+    padding: 15px;
+}
+
+.cart-table tr td img {
+    width: 100px;
+    margin: 0 auto;
+}
+
+.cart-table tr td h4 {
+    text-transform: capitalize;
+}
+
+.cart-table tr td p {
+    margin: 0;
+}
+
+.cart-table tr td p {
+    margin: 0;
+}
+
+.table-btn {
+    background: #fff;
+    display: table;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-top: none;
+    padding: 7px 25px 13px;
+}
+

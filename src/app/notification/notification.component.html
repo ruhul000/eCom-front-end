@@ -1,0 +1,56 @@
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+    <div class="container">
+        <ul>
+            <li>All Notifications</li>
+        </ul>
+    </div>
+</div>
+
+<!-- MY ACCOUNT -->
+<div class="account-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-4 checkout-steps">
+                <h6>All Notifications</h6>
+                <app-sidebar></app-sidebar>
+            </div>
+            <div class="col-md-9 col-sm-8">
+                <div id="account-id">
+                    <h4 class="account-title"><span class="fa fa-chevron-right"></span>All Notifications</h4>
+                    <div class="order-history">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>Send Time</th>
+                                            <th>Subject</th>
+                                            <th>Order Id</th>
+                                            <th>Message</th>
+                                        </tr>
+                                        <tr *ngFor="let notification of notifications">
+                                            <td>{{notification?.createdAt | date:'yyyy-MM-dd hh:mm a'}}</td>
+                                            <td>{{notification?.subject}}</td>
+                                            <td>{{notification?.orderId?.order_id}}</td>
+                                            <td>{{notification?.message}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-12">
+                                <pagination [totalItems]="totalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"
+                                            class="pagination-sm" (pageChanged)="pageChanged($event)"
+                                            [itemsPerPage]="itemsPerPage" [boundaryLinks]="true"
+                                            [rotate]="false"></pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix space20"></div>

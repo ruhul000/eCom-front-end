@@ -1,0 +1,102 @@
+footer {
+  background: #1e1e1e;
+  padding: 45px 0 35px;
+}
+.footer-bottom {
+  background: #131313;
+  padding: 25px 0;
+}
+.widget-footer h5 {
+  font-family: Montserrat;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #eee;
+  margin: 0 0 22px;
+}
+.widget-footer p {
+  font-size: 13px;
+  color: #bbb;
+}
+.newsletter input {
+  height: 36px;
+  background: #343434;
+  border: none;
+  color: #ccc;
+  padding: 0 20px;
+  line-height: 36px;
+  width: 100%;
+  margin-bottom: 13px;
+  outline: 0;
+}
+.newsletter button {
+  border-radius: 3px;
+  background: #d6644a;
+  color: #fff;
+  height: 39px;
+  line-height: 39px;
+  padding: 0 10px;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,.12);
+  border: none;
+}
+.newsletter button:hover {
+  background: #343434;
+  color: #fff;
+}
+.flinks li {
+  float: left;
+  margin-right: 12px;
+  position: relative;
+}
+.flinks li a {
+  color: #bbbbbb;
+}
+.flinks li::after {
+  content: "|";
+  color: #555;
+  position: relative;
+  right: -6px;
+}
+.footer-bottom p {
+  color: #bbb;
+  margin: 0;
+}
+.payment {
+  position: relative;
+  top: 4px;
+}
+.f-social {
+  border-top: 1px solid #2c2c2c;
+  margin: 4px 0 0 0;
+  padding-top: 17px;
+}
+.f-social li {
+  float: left;
+  margin-right: 15px;
+  position: relative;
+}
+.f-social li a {
+  font-size: 21px;
+  color: #aaaaaa;
+}
+.widget-footer .media i {
+  background-color: #ededed;
+  border-radius: 50%;
+  color: #333333;
+  display: inline-block;
+  font-size: 16px;
+  height: 35px;
+  line-height: 33px;
+  margin: auto 15px auto auto;
+  padding: 0;
+  text-align: center;
+  width: 35px;
+}
+.widget-footer .media{
+  color: #bbb;
+}

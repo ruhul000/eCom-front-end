@@ -1,0 +1,122 @@
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+    <div class="container">
+        <ul>
+            <li><a routerLink="#">Home</a></li>
+            <li>Product Detail</li>
+            <li>Product Fashion</li>
+        </ul>
+    </div>
+</div>
+
+<div class="space10"></div>
+
+<!-- MAIN CONTENT -->
+<div class="shop-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <carousel>
+                            <slide *ngFor="let image of product?.images">
+                                <img src="{{imageURL + image}}" alt="Image" style="display: block; width: 100%;">
+                            </slide>
+                        </carousel>
+                    </div>
+                    <div class="col-md-7 col-sm-6">
+                        <div class="product-single">
+                            <div class="ps-header">
+                                <!--<span class="badge new" *ngIf="product?.new">New</span> -->
+                                <span class="badge offer" *ngIf="product?.discount">{{product?.discount}}%</span>
+                                <h3>{{product?.name}}</h3>
+                                <!--<div class="ratings-wrap">-->
+                                <!--<div class="ratings">-->
+                                <!--<span class="act fa fa-star"></span>-->
+                                <!--<span class="act fa fa-star"></span>-->
+                                <!--<span class="act fa fa-star"></span>-->
+                                <!--<span class="act fa fa-star"></span>-->
+                                <!--<span class="act fa fa-star"></span>-->
+                                <!--</div>-->
+                                <!--<em>(6 reviews)</em>-->
+                                <!--</div>-->
+                                <div class="ps-price" *ngIf="!product?.discount"> ৳ {{product?.price}}</div>
+                                <div class="ps-price" *ngIf="product?.discount"><span>৳ {{product?.price}}</span> ৳
+                                    {{(product?.price - (product?.price*product?.discount/100))}}
+                                </div>
+                            </div>
+                            <p>{{product?.detail}}</p>
+                            <!--<div class="ps-stock">-->
+                            <!--Available: <a href="#">In Stock</a>-->
+                            <!--</div>-->
+                            <div class="sep"></div>
+                            <div class="space10"></div>
+                            <div class="row select-wraps">
+                                <div class="col-md-6 col-sm-6"
+                                     *ngFor="let com of product?.components; let count  = index;">
+                                    <p>{{com.name}}<span>*</span></p>
+                                    <select class="form-control"
+                                            (change)="selectComponent(com.name, count, $event.target.value)">
+                                        <option *ngFor=" let val of com.value.split(','); let count2  = index;"
+                                                [value]="count2">{{val}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="col-md-6 col-sm-6">
+                                    <p>Quantity<span>*</span></p>
+                                    <input type="number" class="form-control" min="1" name="compoQty"
+                                           [(ngModel)]="compoQty">
+                                </div>
+                            </div>
+                            <div class="space20"></div>
+                            <div class="share">
+                                <!--<span>-->
+                                <!--<a href="#" class="fa fa-heart-o"></a>-->
+                                <!--<a href="#" class="fa fa-signal"></a>-->
+                                <!--<a href="#" class="fa fa-envelope-o"></a>-->
+                                <!--</span>-->
+
+                            </div>
+                            <div class="space20"></div>
+                            <div class="sep"></div>
+                            <a class="addtobag" style="cursor: pointer;"
+                               (click)="layoutService.addToCart(product?._id, 'local', compo, compoQty);toastr.success('Product has been added to cart.', 'Success!');">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix space40"></div>
+                <div role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Product Description</a></li>
+                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Customer Review</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                            <!--<p [inn]>  {{product?.description}}</p>-->
+                            <div [innerHTML]="product?.description"></div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="profile">
+                            <div class="reviews-tab">
+                                <div *ngFor="let review of reviews">
+                                    <p><b>{{review?.user_id?.name}}</b>, {{review?.time | date:'yyyy-MM-dd hh:mm a'}}</p>
+                                    <p>{{review?.text}}</p>
+                                    <div class="ratings">
+                                        <span class="act fa fa-star" *ngFor="let in of counter(review?.rate) ;let i = index"></span>
+                                        <span class="fa fa-star" *ngFor="let in of counter(10 - review?.rate) ;let i = index"></span>
+                                    </div>
+                                    <div class="sep"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix space40"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix space20"></div>

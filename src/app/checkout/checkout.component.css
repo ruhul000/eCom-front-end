@@ -1,0 +1,94 @@
+.cart-table {
+    width: 100%;
+    background: #ffffff;
+}
+
+.cart-table tr th {
+    border: 1px solid #cccccc;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 12px;
+    color: #333;
+    text-transform: uppercase;
+    font-weight: 400;
+    padding: 15px 10px;
+}
+
+.cart-table tr td img {
+    width: 100px;
+    margin: 0 auto;
+}
+
+.cart-table tr th {
+    border: 1px solid #cccccc;
+    text-align: center;
+}
+
+.cart-table tr td {
+    border: 1px solid #cccccc;
+    text-align: center;
+}
+
+.cart-table tr td {
+    padding: 15px;
+}
+
+.table-btn {
+    background: #fff;
+    display: table;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-top: none;
+    padding: 7px 25px 13px;
+}
+
+.shipping-info-wrap h2 {
+    font-family: Montserrat;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #333;
+}
+
+.totals {
+    background: #f5f5f5;
+    padding: 38px;
+    text-align: right;
+}
+
+#shopping-cart-totals-table {
+    float: right;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.btn-color {
+    height: 33px;
+    border: none;
+    line-height: 33px;
+    background: #d6644a;
+    padding: 0 20px;
+    display: inline-block;
+    font-family: Montserrat;
+    font-size: 11px;
+    border-radius: 3px;
+    color: #fff;
+    text-transform: uppercase;
+    margin: 8px 0 0;
+}
+
+.btn-color:hover {
+    background: #333;
+    color: #fff;
+}
+
+.checkout-types li:last-child a {
+    font-size: 12px;
+    color: #ffffff;
+}
+.selectboxit-container {
+    position: relative;
+    display: none;
+    vertical-align: top;
+    margin-top: -5px;
+    margin-left: 3px;
+}

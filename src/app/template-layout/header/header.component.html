@@ -1,0 +1,182 @@
+<div class="top_bar">
+    <div class="container">
+        <div class="row">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="tb_center pull-left">
+                        <ul>
+                            <li><i class="fa fa-phone"></i> Hotline: <a routerLink="">{{settingsService?.phone}}</a></li>
+                            <li><i class="fa fa-envelope-o"></i> <a routerLink="">online {{settingsService?.email}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tb_right pull-right">
+                        <ul>
+                            <li *ngIf="layoutService?.isLogin">
+                                <div class="tbr-info">
+                                    <span><a routerLink="/notifications/all">Notification ({{notificationsService?.unreadNotification}})</a></span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tbr-info">
+                                    <ng-container *ngIf="!layoutService?.isLogin">
+                                    <span>Account <i class="fa fa-caret-down"></i></span>
+                                    </ng-container>
+                                    <ng-container *ngIf="layoutService?.isLogin">
+                                    <span>Hello, {{layoutService?.userName}} <i class="fa fa-caret-down"></i></span>
+                                    </ng-container>
+                                    <div class="tbr-inner">
+                                        <a routerLink="/user/my_account"
+                                           *ngIf="layoutService?.isLogin">Personal
+                                            Information</a>
+                                        <a routerLink="/order/all"
+                                           *ngIf="layoutService?.isLogin">Order
+                                            History</a>
+                                        <!--<a routerLink="/user/wishlist" *ngIf="layoutService?.isLogin && layoutService?.userGroup == 'member'">Wishlist</a>-->
+                                        <a routerLink="/user/logout" *ngIf="layoutService?.isLogin">Logout</a>
+                                        <a routerLink="/user/login" *ngIf="!layoutService?.isLogin">Login / Register</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tbr-info">
+                                    <span><a routerLink="order/checkout">Checkout  <i
+                                        class="fa fa-shopping-cart"></i></a></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- HEADER -->
+<header>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="row">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- Logo -->
+                    <a class="navbar-brand" routerLink=""><img src="assets/images/ajkershopping-logo.png"
+                                                               class="img-responsive"
+                                                               alt=""/></a>
+                </div>
+                <!-- Cart & Search -->
+                <div class="header-xtra pull-right">
+                    <div class="topcart">
+                        <span><i class="fa fa-shopping-cart"></i></span>
+                        <div class="cart-info">
+                            <ng-container *ngIf="layoutService?.cart && layoutService?.cart?.length > 0">
+                                <div class="ci-item" *ngFor="let cartdata of layoutService?.cart">
+                                    <img src="{{imageURL + cartdata?.images}}" width="80" alt=""/>
+                                    <div class="ci-item-info">
+                                        <h5><a [routerLink]="'product/detail/' + cartdata?._id">{{cartdata?.name}}</a>
+                                        </h5>
+                                        <ng-container
+                                            *ngIf="cartdata && cartdata?.components && cartdata?.components?.length > 0">
+                                            <p *ngFor="let component of cartdata?.components">{{component?.name}}:
+                                                {{component?.value}}</p>
+                                        </ng-container>
+                                        <p>
+                                            {{cartdata?.qty}} x {{cartdata?.price}}
+                                        </p>
+                                        <div class="ci-edit">
+                                            <a class="edit fa fa-trash"
+                                               (click)="layoutService?.removeToCart(cartdata)"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <div class="ci-total">Subtotal: ৳{{layoutService?.total_price == 0 ? '0.00' :
+                                layoutService?.total_price}}
+                            </div>
+                            <div class="ci-total">Discount: ৳{{(layoutService?.total_discount == 0 ? '0.00' :
+                                layoutService?.total_discount)}}
+                            </div>
+                            <div class="ci-total">Shipping: ৳{{(layoutService?.total_shippingPrice == 0 ? '0.00' :
+                                layoutService?.total_shippingPrice)}}
+                            </div>
+                            <div class="ci-total">Grand Total: ৳{{layoutService?.grand_total == 0 ? '0.00' :
+                                layoutService?.grand_total}}
+                            </div>
+                            <div class="cart-btn">
+                                <a routerLink="/order/cart">View Bag</a>
+                                <a routerLink="/order/checkout">Checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="topsearch">
+                                    <span>
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                        <form class="searchtop">
+                            <input type="text" (input)="getProduct($event.target.value)"
+                                   placeholder="Search entire store here.">
+                        </form>
+                    </div>
+                </div>
+                <!-- Navmenu -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a routerLink="">Home</a>
+                        </li>
+                        <li class="dropdown mmenu">
+                            <a routerLink="/product" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false">Shop</a>
+                            <ul class="mega-menu dropdown-menu" role="menu">
+                                <li *ngFor="let menu of menus">
+                                    <div>
+                                        <h5>{{menu['name']}}</h5>
+                                        <a *ngFor="let sub of menu['sub']"
+                                           [routerLink]="'/product/category/' + sub?._id">{{sub?.name}}</a>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a routerLink="/global_shopping" style="font-weight: bolder; color: #EF8437;">Global Shopping</a>
+                        </li>
+                        <li class="dropdown">
+                            <a routerLink="/user/my_account" class="dropdown-toggle" data-toggle="dropdown"
+                               role="button" aria-expanded="false">Account</a>
+                            <ul class="dropdown-menu submenu" role="menu">
+                                <li *ngIf="layoutService?.isLogin">
+                                    <a routerLink="/user/my_account">Personal Information</a>
+                                </li>
+                                <li *ngIf="layoutService?.isLogin">
+                                    <a routerLink="/order/all">Order History</a></li>
+                                <li *ngIf="layoutService?.isLogin">
+                                    <a routerLink="/request/all">All Requests</a></li>
+                                <li *ngIf="layoutService?.isLogin">
+                                    <a routerLink="/notifications/all">All Notifications</a>
+                                </li>
+                                <li *ngIf="layoutService?.isLogin">
+                                    <a routerLink="/user/logout">Logout</a>
+                                </li>
+                                <li *ngIf="!layoutService?.isLogin">
+                                    <a routerLink="/user/login">Login / Register</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a routerLink="/contact_us">Contact US</a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
